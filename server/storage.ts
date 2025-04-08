@@ -124,15 +124,7 @@ export class MemStorage implements IStorage {
       checkPeriod: 86400000,
     });
     
-    // Add admin user for testing
-    this.createUser({
-      username: "admin",
-      password: "adminpassword",
-      fullName: "Admin User",
-      email: "admin@example.com",
-      role: "admin",
-      avatar: "",
-    });
+    // This admin user will be properly hashed in the setupAuth function
   }
 
   // User operations

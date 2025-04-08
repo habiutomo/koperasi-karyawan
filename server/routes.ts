@@ -13,7 +13,7 @@ import {
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Setup authentication routes
-  setupAuth(app);
+  await setupAuth(app);
 
   // Member routes
   app.get("/api/members", async (req, res) => {

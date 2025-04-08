@@ -28,8 +28,23 @@ async function comparePasswords(supplied: string, stored: string) {
   return timingSafeEqual(hashedBuf, suppliedBuf);
 }
 
-export function setupAuth(app: Express) {
+export async function setupAuth(app: Express) {
   const sessionSecret = process.env.SESSION_SECRET || "koperasi-karyawan-secret-key";
+  
+  // Create admin user with hashed password if it doesn't exist
+  const existingAdmin = await storage.getUserByUsername("admin");
+  if (!existingAdmin) {
+    const hashedPassword = await hashPassword("adminpassword");
+    await storage.createUser({
+      username: "admin",
+      password: hashedPassword,
+      fullName: "Admin User",
+      email: "admin@example.com",
+      role: "admin",
+      avatar: "",
+    });
+    console.log("Admin user created with hashed password");
+  }
   
   const sessionSettings: session.SessionOptions = {
     secret: sessionSecret,
