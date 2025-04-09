@@ -90,44 +90,44 @@ export default function Dashboard() {
         
         <div className="p-6">
           <header className="mb-6">
-            <h1 className="text-2xl font-bold text-gray-900 bg-gradient-to-r from-primary to-pink-500 text-transparent bg-clip-text">Beranda Koperasi</h1>
-            <p className="text-muted-foreground">Selamat datang di Sistem Manajemen Koperasi Karyawan</p>
+            <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
+            <p className="text-muted-foreground">Welcome to Koperasi Karyawan Management System</p>
           </header>
           
           {/* Stats Overview Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
             <StatsCard 
-              title="Total Anggota" 
+              title="Total Members" 
               value={!loadingMemberStats ? memberStats?.total : "--"}
               icon="users"
               change={!loadingMemberStats ? {
-                value: `+${memberStats?.new || 0} bulan ini`,
+                value: `+${memberStats?.new || 0} this month`,
                 positive: true
               } : undefined}
             />
             
             <StatsCard 
-              title="Total Simpanan" 
+              title="Total Savings" 
               value={!loadingSavingsStats ? savingsStats?.totalSavings || 0 : 0}
               icon="savings"
               change={!loadingSavingsStats && savingsStats?.monthlySavings?.[0] ? {
-                value: `+${(savingsStats.monthlySavings[0].amount / (savingsStats.totalSavings || 1) * 100).toFixed(1)}% bulan ini`,
+                value: `+${(savingsStats.monthlySavings[0].amount / (savingsStats.totalSavings || 1) * 100).toFixed(1)}% this month`,
                 positive: true
               } : undefined}
             />
             
             <StatsCard 
-              title="Pinjaman Aktif" 
+              title="Active Loans" 
               value={!loadingLoanStats ? loanStats?.activeLoans || 0 : 0}
               icon="loans"
               change={!loadingLoanStats && loanStats?.monthlyLoans?.[0] ? {
-                value: `+${(loanStats.monthlyLoans[0].amount / (loanStats.activeLoans || 1) * 100).toFixed(1)}% bulan ini`,
+                value: `+${(loanStats.monthlyLoans[0].amount / (loanStats.activeLoans || 1) * 100).toFixed(1)}% this month`,
                 positive: false
               } : undefined}
             />
             
             <StatsCard 
-              title="Dividen Terakhir" 
+              title="Last Dividends" 
               value={!loadingDividend && latestDividend ? latestDividend.totalAmount : 0}
               icon="dividends"
               change={!loadingDividend && latestDividend ? {
@@ -139,14 +139,14 @@ export default function Dashboard() {
           
           {/* Recent Activity and Pending Tasks */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-            <div className="lg:col-span-2 bg-white rounded-lg shadow border border-gray-100 hover:border-primary/20 transition-colors">
-              <div className="border-b border-gray-200 p-4 flex justify-between items-center bg-gradient-to-r from-primary/5 to-pink-500/5">
-                <h2 className="font-bold text-lg">Transaksi Terbaru</h2>
+            <div className="lg:col-span-2 bg-white rounded-lg shadow">
+              <div className="border-b border-gray-200 p-4 flex justify-between items-center">
+                <h2 className="font-bold text-lg">Recent Transactions</h2>
                 <button 
                   className="text-primary hover:text-primary-dark text-sm font-medium"
                   onClick={() => navigate('/transactions')}
                 >
-                  Lihat Semua
+                  View All
                 </button>
               </div>
               <div className="p-4">

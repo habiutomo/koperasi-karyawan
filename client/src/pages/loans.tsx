@@ -85,52 +85,52 @@ export default function Loans() {
         <div className="p-6">
           <header className="mb-6 flex flex-col sm:flex-row sm:justify-between sm:items-center space-y-4 sm:space-y-0">
             <div>
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-pink-500 text-transparent bg-clip-text">Pinjaman</h1>
-              <p className="text-muted-foreground">Kelola pinjaman dan aplikasi pengajuan anggota</p>
+              <h1 className="text-2xl font-bold text-gray-900">Loans</h1>
+              <p className="text-muted-foreground">Manage member loans and applications</p>
             </div>
-            <Button onClick={() => setProcessLoanOpen(true)} className="bg-gradient-to-r from-primary to-pink-500 hover:from-primary/90 hover:to-pink-500/90">
+            <Button onClick={() => setProcessLoanOpen(true)}>
               <PlusCircle className="mr-2 h-4 w-4" />
-              Ajukan Pinjaman Baru
+              New Loan Application
             </Button>
           </header>
           
           {/* Loans Overview */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
             <StatsCard 
-              title="Pinjaman Aktif" 
+              title="Active Loans" 
               value={!loadingStats ? loanStats?.activeLoans || 0 : 0}
               icon="loans"
-              className="md:col-span-1 shadow-md hover:shadow-lg transition-shadow border border-primary/10 hover:border-primary/20"
+              className="md:col-span-1"
             />
             <StatsCard 
-              title="Pengajuan Tertunda" 
+              title="Pending Applications" 
               value={!loadingStats ? loanStats?.pendingLoans || 0 : 0}
               icon="loans"
-              className="md:col-span-1 shadow-md hover:shadow-lg transition-shadow border border-primary/10 hover:border-primary/20"
+              className="md:col-span-1"
             />
             <StatsCard 
-              title="Total Pinjaman Disalurkan" 
+              title="Total Loans Disbursed" 
               value={!loadingStats ? (
                 loanStats?.monthlyLoans?.reduce((acc, curr) => acc + curr.amount, 0) || 0
               ) : 0}
               icon="loans"
-              className="md:col-span-1 shadow-md hover:shadow-lg transition-shadow border border-primary/10 hover:border-primary/20"
+              className="md:col-span-1"
             />
           </div>
           
           {/* Loans Table */}
-          <Card className="shadow-lg border border-gray-100">
-            <CardHeader className="bg-gradient-to-r from-primary/5 to-pink-500/5 border-b border-primary/10">
-              <CardTitle>Daftar Pinjaman dan Status</CardTitle>
-              <CardDescription>Kelola pengajuan pinjaman, persetujuan, dan pembayaran cicilan</CardDescription>
+          <Card>
+            <CardHeader>
+              <CardTitle>Loan Applications and Status</CardTitle>
+              <CardDescription>Manage loan applications, approvals, and repayments</CardDescription>
             </CardHeader>
-            <CardContent className="p-4 md:p-6">
+            <CardContent>
               <Tabs value={activeTab} onValueChange={setActiveTab}>
-                <TabsList className="mb-4 bg-gray-100/80">
-                  <TabsTrigger value="active" className="data-[state=active]:bg-primary data-[state=active]:text-white">Pinjaman Aktif</TabsTrigger>
-                  <TabsTrigger value="pending" className="data-[state=active]:bg-primary data-[state=active]:text-white">Pengajuan Tertunda</TabsTrigger>
-                  <TabsTrigger value="completed" className="data-[state=active]:bg-primary data-[state=active]:text-white">Pinjaman Selesai</TabsTrigger>
-                  <TabsTrigger value="rejected" className="data-[state=active]:bg-primary data-[state=active]:text-white">Pengajuan Ditolak</TabsTrigger>
+                <TabsList className="mb-4">
+                  <TabsTrigger value="active">Active Loans</TabsTrigger>
+                  <TabsTrigger value="pending">Pending Applications</TabsTrigger>
+                  <TabsTrigger value="completed">Completed Loans</TabsTrigger>
+                  <TabsTrigger value="rejected">Rejected Applications</TabsTrigger>
                 </TabsList>
                 
                 <TabsContent value={activeTab}>
@@ -141,57 +141,50 @@ export default function Loans() {
                   ) : loans && loans.length > 0 ? (
                     <div className="rounded-md border overflow-hidden">
                       <Table>
-                        <TableHeader className="bg-gray-50">
+                        <TableHeader>
                           <TableRow>
-                            <TableHead className="font-semibold">Anggota</TableHead>
-                            <TableHead className="font-semibold">Jumlah</TableHead>
-                            <TableHead className="font-semibold">Jangka Waktu</TableHead>
-                            <TableHead className="font-semibold">Bunga</TableHead>
-                            <TableHead className="font-semibold">Cicilan Bulanan</TableHead>
-                            <TableHead className="font-semibold">Status</TableHead>
-                            <TableHead className="font-semibold">Aksi</TableHead>
+                            <TableHead>Member</TableHead>
+                            <TableHead>Amount</TableHead>
+                            <TableHead>Term</TableHead>
+                            <TableHead>Interest Rate</TableHead>
+                            <TableHead>Monthly Payment</TableHead>
+                            <TableHead>Status</TableHead>
+                            <TableHead>Actions</TableHead>
                           </TableRow>
                         </TableHeader>
                         <TableBody>
                           {loans.map((loan) => (
-                            <TableRow key={loan.id} className="hover:bg-gray-50/50">
-                              <TableCell className="font-medium">{`Anggota #${loan.memberId}`}</TableCell>
-                              <TableCell className="font-mono font-semibold text-primary">{formatCurrency(loan.amount)}</TableCell>
-                              <TableCell>{loan.term} bulan</TableCell>
+                            <TableRow key={loan.id}>
+                              <TableCell className="font-medium">{`Member #${loan.memberId}`}</TableCell>
+                              <TableCell className="font-mono">{formatCurrency(loan.amount)}</TableCell>
+                              <TableCell>{loan.term} months</TableCell>
                               <TableCell>{loan.interestRate}%</TableCell>
                               <TableCell className="font-mono">{formatCurrency(loan.monthlyPayment || 0)}</TableCell>
                               <TableCell>
                                 <div className="flex items-center">
                                   {renderStatusIcon(loan.status)}
                                   <Badge className={getStatusBadgeColor(loan.status)}>
-                                    {/* Terjemahkan status ke Bahasa Indonesia */}
-                                    {loan.status === "active" ? "Aktif" : 
-                                     loan.status === "pending" ? "Tertunda" :
-                                     loan.status === "completed" ? "Selesai" :
-                                     loan.status === "approved" ? "Disetujui" :
-                                     loan.status === "rejected" ? "Ditolak" :
-                                     loan.status === "defaulted" ? "Macet" : 
-                                     loan.status.charAt(0).toUpperCase() + loan.status.slice(1)}
+                                    {loan.status.charAt(0).toUpperCase() + loan.status.slice(1)}
                                   </Badge>
                                 </div>
                               </TableCell>
                               <TableCell>
                                 {activeTab === "active" ? (
-                                  <Button size="sm" onClick={() => setRepayLoanOpen(true)} className="bg-primary hover:bg-primary/90">
-                                    Catat Pembayaran
+                                  <Button size="sm" onClick={() => setRepayLoanOpen(true)}>
+                                    Record Payment
                                   </Button>
                                 ) : activeTab === "pending" ? (
                                   <div className="flex gap-2">
                                     <Button size="sm" variant="outline" className="border-green-500 text-green-600 hover:bg-green-50">
-                                      Setujui
+                                      Approve
                                     </Button>
                                     <Button size="sm" variant="outline" className="border-red-500 text-red-600 hover:bg-red-50">
-                                      Tolak
+                                      Reject
                                     </Button>
                                   </div>
                                 ) : (
                                   <Button size="sm" variant="outline">
-                                    Lihat Detail
+                                    View Details
                                   </Button>
                                 )}
                               </TableCell>
@@ -201,28 +194,17 @@ export default function Loans() {
                       </Table>
                     </div>
                   ) : (
-                    <div className="h-[400px] flex flex-col items-center justify-center p-8">
-                      <p className="text-muted-foreground text-center mb-4">Belum ada data pinjaman untuk kategori ini</p>
-                      <Button onClick={() => setProcessLoanOpen(true)} variant="outline" className="border-primary text-primary hover:bg-primary/5">
-                        <PlusCircle className="mr-2 h-4 w-4" />
-                        Ajukan Pinjaman Baru
-                      </Button>
+                    <div className="h-[400px] flex items-center justify-center">
+                      <p className="text-muted-foreground">No loans found</p>
                     </div>
                   )}
                 </TabsContent>
               </Tabs>
             </CardContent>
-            <CardFooter className="flex justify-between bg-gray-50/50 border-t">
-              <Button variant="outline" className="border-primary/20 hover:border-primary/40 hover:bg-primary/5">
-                Ekspor Data Pinjaman
-              </Button>
-              <Button 
-                variant="outline" 
-                onClick={() => setProcessLoanOpen(true)} 
-                className="bg-gradient-to-r from-primary/10 to-pink-500/10 border-primary/20 hover:border-primary/40"
-              >
-                <PlusCircle className="mr-2 h-4 w-4" />
-                Ajukan Pinjaman Baru
+            <CardFooter className="flex justify-between">
+              <Button variant="outline">Export Loan Data</Button>
+              <Button variant="outline" onClick={() => setProcessLoanOpen(true)}>
+                New Loan Application
               </Button>
             </CardFooter>
           </Card>

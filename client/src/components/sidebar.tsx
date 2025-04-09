@@ -32,37 +32,37 @@ export function Sidebar({ className }: SidebarProps) {
 
   const navItems = [
     {
-      title: "Beranda",
+      title: "Dashboard",
       href: "/",
       icon: <LayoutDashboard className="h-5 w-5" />,
     },
     {
-      title: "Anggota",
+      title: "Members",
       href: "/members",
       icon: <Users className="h-5 w-5" />,
     },
     {
-      title: "Simpanan",
+      title: "Savings",
       href: "/savings",
       icon: <PiggyBank className="h-5 w-5" />,
     },
     {
-      title: "Pinjaman",
+      title: "Loans",
       href: "/loans",
       icon: <CreditCard className="h-5 w-5" />,
     },
     {
-      title: "Dividen",
+      title: "Dividends",
       href: "/dividends",
       icon: <DollarSign className="h-5 w-5" />,
     },
     {
-      title: "Laporan",
+      title: "Reports",
       href: "/reports",
       icon: <BarChart className="h-5 w-5" />,
     },
     {
-      title: "Pengaturan",
+      title: "Settings",
       href: "/settings",
       icon: <Settings className="h-5 w-5" />,
     },
