@@ -25,44 +25,44 @@ interface SidebarProps {
 export function Sidebar({ className }: SidebarProps) {
   const [location] = useLocation();
   const { user, logoutMutation } = useAuth();
-  const isMobile = useMediaQuery("(max-width: 768px)");
+  const isMobile = useMediaQuery();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const closeMobileMenu = () => setMobileMenuOpen(false);
 
   const navItems = [
     {
-      title: "Dashboard",
+      title: "Beranda",
       href: "/",
       icon: <LayoutDashboard className="h-5 w-5" />,
     },
     {
-      title: "Members",
+      title: "Anggota",
       href: "/members",
       icon: <Users className="h-5 w-5" />,
     },
     {
-      title: "Savings",
+      title: "Simpanan",
       href: "/savings",
       icon: <PiggyBank className="h-5 w-5" />,
     },
     {
-      title: "Loans",
+      title: "Pinjaman",
       href: "/loans",
       icon: <CreditCard className="h-5 w-5" />,
     },
     {
-      title: "Dividends",
+      title: "Dividen",
       href: "/dividends",
       icon: <DollarSign className="h-5 w-5" />,
     },
     {
-      title: "Reports",
+      title: "Laporan",
       href: "/reports",
       icon: <BarChart className="h-5 w-5" />,
     },
     {
-      title: "Settings",
+      title: "Pengaturan",
       href: "/settings",
       icon: <Settings className="h-5 w-5" />,
     },

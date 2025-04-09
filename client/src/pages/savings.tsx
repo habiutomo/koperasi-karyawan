@@ -79,62 +79,88 @@ export default function Savings() {
         <div className="p-6">
           <header className="mb-6 flex flex-col sm:flex-row sm:justify-between sm:items-center space-y-4 sm:space-y-0">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">Savings</h1>
-              <p className="text-muted-foreground">Manage member savings and transactions</p>
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-pink-500 text-transparent bg-clip-text">Simpanan Anggota</h1>
+              <p className="text-muted-foreground">Kelola simpanan dan transaksi anggota koperasi</p>
             </div>
-            <Button onClick={() => setRecordSavingsOpen(true)}>
+            <Button onClick={() => setRecordSavingsOpen(true)} className="bg-gradient-to-r from-primary to-pink-500 hover:from-primary/90 hover:to-pink-500/90">
               <PlusCircle className="mr-2 h-4 w-4" />
-              Record Transaction
+              Catat Transaksi
             </Button>
           </header>
           
-          {/* Savings Overview */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-            <StatsCard 
-              title="Total Savings" 
-              value={!loadingStats ? savingsStats?.totalSavings || 0 : 0}
-              icon="savings"
-              change={!loadingStats && savingsStats?.monthlySavings?.[0] ? {
-                value: `+${(savingsStats.monthlySavings[0].amount / savingsStats.totalSavings * 100).toFixed(1)}% this month`,
-                positive: true
-              } : undefined}
-              className="md:col-span-3"
-            />
+          {/* Savings Overview Banner */}
+          <div className="rounded-lg overflow-hidden mb-6 shadow-lg border border-primary/10">
+            <div className="bg-gradient-to-r from-primary/10 to-pink-500/10 p-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <h3 className="text-lg font-medium mb-2">Program Simpanan</h3>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Program simpanan kami menawarkan beberapa keuntungan:
+                  </p>
+                  <ul className="space-y-2">
+                    <li className="flex items-center text-sm">
+                      <span className="h-5 w-5 rounded-full bg-primary/20 flex items-center justify-center mr-2 text-primary">✓</span>
+                      Simpanan pokok Rp 500.000 dibayar saat menjadi anggota
+                    </li>
+                    <li className="flex items-center text-sm">
+                      <span className="h-5 w-5 rounded-full bg-primary/20 flex items-center justify-center mr-2 text-primary">✓</span>
+                      Simpanan wajib Rp 100.000 per bulan
+                    </li>
+                    <li className="flex items-center text-sm">
+                      <span className="h-5 w-5 rounded-full bg-primary/20 flex items-center justify-center mr-2 text-primary">✓</span>
+                      Simpanan sukarela dengan bunga kompetitif
+                    </li>
+                  </ul>
+                </div>
+                <div>
+                  <StatsCard 
+                    title="Total Simpanan" 
+                    value={!loadingStats ? savingsStats?.totalSavings || 0 : 0}
+                    icon="savings"
+                    change={!loadingStats && savingsStats?.monthlySavings?.[0] ? {
+                      value: `+${(savingsStats.monthlySavings[0].amount / (savingsStats.totalSavings || 1) * 100).toFixed(1)}% bulan ini`,
+                      positive: true
+                    } : undefined}
+                    className="h-full shadow-md"
+                  />
+                </div>
+              </div>
+            </div>
           </div>
           
           {/* Recent Transactions */}
-          <Card className="mb-6">
-            <CardHeader>
-              <CardTitle>Recent Savings Transactions</CardTitle>
-              <CardDescription>View the latest deposits and withdrawals</CardDescription>
+          <Card className="mb-6 border border-gray-100 shadow-lg">
+            <CardHeader className="bg-gradient-to-r from-primary/5 to-pink-500/5 border-b border-primary/10">
+              <CardTitle>Transaksi Simpanan Terbaru</CardTitle>
+              <CardDescription>Lihat setoran dan penarikan simpanan terbaru</CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="p-4 md:p-6">
               <TransactionsTable 
                 transactions={savingsTransactions || []} 
                 loading={loadingTransactions} 
               />
             </CardContent>
-            <CardFooter className="flex justify-end">
-              <Button variant="outline">
+            <CardFooter className="flex justify-end bg-gray-50/50 border-t">
+              <Button variant="outline" className="border-primary/20 hover:border-primary/40 hover:bg-primary/5">
                 <Download className="mr-2 h-4 w-4" />
-                Export Transactions
+                Ekspor Transaksi
               </Button>
             </CardFooter>
           </Card>
           
           {/* Savings Balances */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Member Savings Balances</CardTitle>
-              <CardDescription>View current savings for all members</CardDescription>
+          <Card className="border border-gray-100 shadow-lg">
+            <CardHeader className="bg-gradient-to-r from-primary/5 to-pink-500/5 border-b border-primary/10">
+              <CardTitle>Saldo Simpanan Anggota</CardTitle>
+              <CardDescription>Lihat saldo simpanan seluruh anggota koperasi</CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="p-4 md:p-6">
               <div className="flex gap-4 mb-6">
                 <div className="relative flex-1">
                   <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
                   <Input
-                    placeholder="Search members..."
-                    className="pl-8"
+                    placeholder="Cari anggota..."
+                    className="pl-8 border-primary/20 focus:border-primary"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                   />
@@ -150,36 +176,40 @@ export default function Savings() {
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead>
+                        <TableHead className="bg-gray-50">
                           <Button variant="ghost" className="p-0 h-8 w-full justify-start font-medium">
-                            Member ID
+                            ID Anggota
                             <ArrowUpDown className="ml-2 h-4 w-4" />
                           </Button>
                         </TableHead>
-                        <TableHead>
+                        <TableHead className="bg-gray-50">
                           <Button variant="ghost" className="p-0 h-8 w-full justify-start font-medium">
-                            Current Balance
+                            Saldo Saat Ini
                             <ArrowUpDown className="ml-2 h-4 w-4" />
                           </Button>
                         </TableHead>
-                        <TableHead>
+                        <TableHead className="bg-gray-50">
                           <Button variant="ghost" className="p-0 h-8 w-full justify-start font-medium">
-                            Last Update
+                            Pembaruan Terakhir
                             <ArrowUpDown className="ml-2 h-4 w-4" />
                           </Button>
                         </TableHead>
-                        <TableHead className="text-right">Actions</TableHead>
+                        <TableHead className="text-right bg-gray-50">Aksi</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
                       {filteredSavings.map((saving) => (
-                        <TableRow key={saving.id}>
-                          <TableCell className="font-medium">{`Member #${saving.memberId}`}</TableCell>
-                          <TableCell className="font-mono">{formatCurrency(saving.totalSavings)}</TableCell>
+                        <TableRow key={saving.id} className="hover:bg-gray-50/50">
+                          <TableCell className="font-medium">{`Anggota #${saving.memberId}`}</TableCell>
+                          <TableCell className="font-mono font-semibold text-primary">{formatCurrency(saving.totalSavings)}</TableCell>
                           <TableCell>{formatDate(saving.lastUpdate)}</TableCell>
                           <TableCell className="text-right">
-                            <Button size="sm" onClick={() => setRecordSavingsOpen(true)}>
-                              Record Transaction
+                            <Button 
+                              size="sm" 
+                              onClick={() => setRecordSavingsOpen(true)}
+                              className="bg-primary hover:bg-primary/90"
+                            >
+                              Catat Transaksi
                             </Button>
                           </TableCell>
                         </TableRow>
@@ -188,8 +218,12 @@ export default function Savings() {
                   </Table>
                 </div>
               ) : (
-                <div className="h-[400px] flex items-center justify-center">
-                  <p className="text-muted-foreground">No savings accounts found</p>
+                <div className="h-[400px] flex flex-col items-center justify-center p-8">
+                  <p className="text-muted-foreground text-center mb-4">Belum ada akun simpanan yang ditemukan</p>
+                  <Button onClick={() => setRecordSavingsOpen(true)} variant="outline" className="border-primary text-primary hover:bg-primary/5">
+                    <PlusCircle className="mr-2 h-4 w-4" />
+                    Buat Akun Simpanan Baru
+                  </Button>
                 </div>
               )}
             </CardContent>
