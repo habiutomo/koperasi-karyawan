@@ -2,6 +2,10 @@
 
 A comprehensive web-based management system for employee cooperatives (Koperasi Karyawan) with savings and loans management capabilities.
 
+![Koperasi Karyawan Screenshot](1.png)
+![Koperasi Karyawan Screenshot](2.png)
+![Koperasi Karyawan Screenshot](3.png)
+
 ## Features
 
 - **Member Management:** Add, view, and manage cooperative members including their personal and employment information.
