@@ -76,4 +76,4 @@ Use these credentials to log in to the system:
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+habizinnia@gmail.com
